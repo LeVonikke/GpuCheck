@@ -1,0 +1,11 @@
+# Intermediate compiler output only — the release binary (build/GpuCheck.efi)
+# and its map file are tracked on purpose, they're the working diagnostic image.
+build/obj/
+
+# Python
+__pycache__/
+*.pyc
+
+# OS cruft
+.DS_Store
+Thumbs.db

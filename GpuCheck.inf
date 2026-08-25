@@ -1,0 +1,60 @@
+## @file
+#  GpuCheck - pre-boot PCI/PCIe display adapter diagnostic.
+#
+#  EDK II module definition. The .c files here are the SAME sources the
+#  standalone MSVC build uses; GPUCHECK_EDK2 switches GpuCheck.h from the
+#  bundled Compat/ headers to the real MdePkg ones.
+#
+#  Build inside an EDK II workspace:
+#     build -a X64 -t VS2022 -p GpuCheckPkg/GpuCheckPkg.dsc -b RELEASE
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010006
+  BASE_NAME                      = GpuCheck
+  FILE_GUID                      = 68AEC59C-D2D3-4D5B-8C3C-7D2C6BFCFC3C
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0.0
+  ENTRY_POINT                    = UefiMain
+
+[Sources]
+  GpuCheck.c
+  GpuCheck.h
+  PciScan.c
+  PciScan.h
+  WindowsBoot.c
+  WindowsBoot.h
+  GpuConfig.c
+  GpuConfig.h
+  GpuLog.c
+  GpuLog.h
+
+[Packages]
+  MdePkg/MdePkg.dec
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  UefiLib
+  UefiBootServicesTableLib
+  UefiRuntimeServicesTableLib
+  BaseLib
+  BaseMemoryLib
+  MemoryAllocationLib
+  PrintLib
+  DevicePathLib
+
+[Protocols]
+  gEfiPciIoProtocolGuid                   ## CONSUMES
+  gEfiPciRootBridgeIoProtocolGuid         ## CONSUMES
+  gEfiLoadedImageProtocolGuid             ## CONSUMES
+  gEfiDevicePathProtocolGuid              ## CONSUMES
+  gEfiSimpleFileSystemProtocolGuid        ## CONSUMES
+
+[Guids]
+  gEfiFileInfoGuid                        ## CONSUMES
+
+[BuildOptions]
+  MSFT:*_*_*_CC_FLAGS = /DGPUCHECK_EDK2
+  GCC:*_*_*_CC_FLAGS  = -DGPUCHECK_EDK2
